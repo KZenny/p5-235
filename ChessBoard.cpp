@@ -98,3 +98,90 @@ ChessBoard::~ChessBoard() {
         }
     }
 }
+
+// MY CODE BELOW
+
+// Alias for readability
+typedef std::vector<std::vector<char>> CharacterBoard;
+
+/**
+* @brief A STATIC helper function for recursively solving the 8-queens problem.
+* 
+* This function places queens column by column, checks for valid placements,
+* and stores all valid board configurations in the provided list.
+* 
+* @param col A const reference to aninteger representing the current column being processed.
+* @param board A (non-const) reference to a 2D vector of ChessPiece*, representing the current board configuration
+* @param placedQueens A (non-const) reference to a vector storing Queen*, which represents the queens we've placed so far
+* @param allBoards A (non-const) reference to a vector of CharacterBoard objects storing all the solutions we've found thus far
+*/
+void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards) {
+    // === Base case: all 8 queens are placed ===
+    if (col == 8) {
+        // Convert board into a CharacterBoard
+        CharacterBoard snapshot(8, std::vector<char>(8, '*'));
+
+        for (int r = 0; r < 8; ++r) {
+            for (int c = 0; c < 8; ++c) {
+                if (board[r][c] != nullptr && board[r][c]->getType() == "QUEEN") {
+                    snapshot[r][c] = 'Q';
+                }
+            }
+        }
+
+        allBoards.push_back(snapshot);
+        return;
+    }
+
+    // === Try placing a Queen in each row of the current column ===
+    for (int row = 0; row < 8; ++row) {
+        bool safe = true;
+
+        // Check if any of the placed queens can move to (row, col)
+        for (const auto& queen : placedQueens) {
+            if (queen->canMove(row, col, board)) {
+                safe = false;
+                break;
+            }
+        }
+
+        // If safe, place a queen and recurse
+        if (safe) {
+            Queen* newQueen = new Queen("WHITE", row, col, false);
+            board[row][col] = newQueen;
+            placedQueens.push_back(newQueen);
+
+            // Recursive call to next column
+            queenHelper(col + 1, board, placedQueens, allBoards);
+
+            // Backtrack: remove the queen and free memory
+            placedQueens.pop_back();
+            delete board[row][col];
+            board[row][col] = nullptr;
+        }
+    }
+}
+
+/** 
+* @brief Finds all possible solutions to the 8-queens problem.
+* 
+* @return A vector of CharacterBoard objects, 
+*         each representing a unique solution 
+*         to the 8-queens problem.
+*/
+std::vector<CharacterBoard> ChessBoard::findAllQueenPlacements() {
+    // Step 1: Create an 8x8 board of nullptrs
+    std::vector<std::vector<ChessPiece*>> board(8, std::vector<ChessPiece*>(8, nullptr));
+
+    // Step 2: Create vector to store placed queens
+    std::vector<Queen*> placedQueens;
+
+    // Step 3: Create vector to store all CharacterBoard results
+    std::vector<CharacterBoard> allBoards;
+
+    // Step 4: Start recursive backtracking from column 0
+    queenHelper(0, board, placedQueens, allBoards);
+    
+    // Step 5: Return all collected solutions
+    return allBoards;
+}

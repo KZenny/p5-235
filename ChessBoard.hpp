@@ -75,4 +75,31 @@ class ChessBoard {
          * @post Deallocates all ChessPiece pointers stored on the board at time of deletion. 
          */
         ~ChessBoard();
+
+        // MY CODE BELOW 
+        
+        // Alias for readability
+        typedef std::vector<std::vector<char>> CharacterBoard;
+
+        /**
+        * @brief A STATIC helper function for recursively solving the 8-queens problem.
+        * 
+        * This function places queens column by column, checks for valid placements,
+        * and stores all valid board configurations in the provided list.
+        * 
+        * @param col A const reference to aninteger representing the current column being processed.
+        * @param board A (non-const) reference to a 2D vector of ChessPiece*, representing the current board configuration
+        * @param placedQueens A (non-const) reference to a vector storing Queen*, which represents the queens we've placed so far
+        * @param allBoards A (non-const) reference to a vector of CharacterBoard objects storing all the solutions we've found thus far
+        */
+        static void queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards);
+
+        /**
+        * @brief Finds all possible solutions to the 8-queens problem.
+        * 
+        * @return A vector of CharacterBoard objects, 
+        *         each representing a unique solution 
+        *         to the 8-queens problem.
+        */
+        static std::vector<CharacterBoard> findAllQueenPlacements();
 };
