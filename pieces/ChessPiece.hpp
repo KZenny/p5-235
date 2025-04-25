@@ -172,5 +172,4 @@ class ChessPiece {
     */
    void flagMoved();
 
-   virtual ~ChessPiece() = default;
 };

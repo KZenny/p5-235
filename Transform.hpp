@@ -57,7 +57,7 @@
     *         where each inner vector is a list of boards 
     *         that are transformations of each other.
     */
-   std::vector<std::vector<CharacterBoard>> groupSimilarBoards(const std::vector<CharacterBoard>& boards);
+   static std::vector<std::vector<CharacterBoard>> groupSimilarBoards(const std::vector<CharacterBoard>& boards);
  
    // Helper function to generate all transformations of a given board
    std::vector<CharacterBoard> getAllTransformations(const CharacterBoard& board);

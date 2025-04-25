@@ -92,7 +92,7 @@ typedef std::vector<std::vector<char>> CharacterBoard;
  *         where each inner vector is a list of boards 
  *         that are transformations of each other.
  */
- std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std::vector<CharacterBoard>& boards) {
+std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std::vector<CharacterBoard>& boards) {
     std::vector<std::vector<CharacterBoard>> groupedBoards;
     std::vector<bool> visited(boards.size(), false);  
 
