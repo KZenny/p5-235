@@ -102,4 +102,26 @@ class ChessBoard {
         *         to the 8-queens problem.
         */
         static std::vector<CharacterBoard> findAllQueenPlacements();
+
+        /**
+        * @brief Groups similar chessboard configurations by transformations.
+        * 
+        * This function organizes a list of chessboard configurations into groups of similar boards, 
+        * where similarity is defined as being identical under a 
+        *      1) Rotation (clockwise: 0°, 90°, 180°, 270°)
+        *      2) Followed by a flip across the horizontal or vertical axis
+        * 
+        * @param boards A const ref. to a vector of `CharacterBoard` objects, each representing a chessboard configuration.
+        * 
+        * @return A 2D vector of `CharacterBoard` objects, 
+        *         where each inner vector is a list of boards 
+        *         that are transformations of each other.
+        */
+        static std::vector<std::vector<CharacterBoard>> groupSimilarBoards(const std::vector<CharacterBoard>& boards);
+ 
+        // Helper function to generate all transformations of a given board
+        static std::vector<CharacterBoard> getAllTransformations(const CharacterBoard& board);
+ 
+        // Helper function to compare two boards for equality
+        static bool areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2);
 };
