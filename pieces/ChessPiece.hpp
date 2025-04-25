@@ -171,4 +171,6 @@ class ChessPiece {
     * @brief Sets a ChessPiece's `has_moved_` member to true
     */
    void flagMoved();
+
+   virtual ~ChessPiece() = default;
 };

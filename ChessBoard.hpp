@@ -94,7 +94,7 @@ class ChessBoard {
         */
         static void queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards);
 
-                /**
+        /**
         * @brief Finds all possible solutions to the 8-queens problem.
         * 
         * @return A vector of CharacterBoard objects, 

@@ -94,11 +94,66 @@ typedef std::vector<std::vector<char>> CharacterBoard;
  */
  std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std::vector<CharacterBoard>& boards) {
     std::vector<std::vector<CharacterBoard>> groupedBoards;
+    std::vector<bool> visited(boards.size(), false);  
+
+    for (size_t i = 0; i < boards.size(); ++i) {
+        if (visited[i]) continue;
+
+        std::vector<CharacterBoard> currentGroup;
+        currentGroup.push_back(boards[i]);
+        visited[i] = true;
+
+        // Compare to every other unvisited board
+        for (size_t j = i + 1; j < boards.size(); ++j) {
+            if (visited[j]) continue;
+
+            bool isSimilar = false;
+            std::vector<CharacterBoard> transformations = Transform::getAllTransformations(boards[j]);
+
+            for (const auto& variant : transformations) {
+                if (Transform::areBoardsEqual(boards[i], variant)) {
+                    isSimilar = true;
+                    break;
+                }
+            }
+
+            if (isSimilar) {
+                currentGroup.push_back(boards[j]);
+                visited[j] = true;
+            }
+        }
+
+        groupedBoards.push_back(currentGroup);
+    }
 
     return groupedBoards;
 }
 
+// Helper function to generate all transformations of a given board
+std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoard& board) {
+    std::vector<CharacterBoard> transformations;
 
+    // Generate all rotations
+    CharacterBoard rotated = board;
+    for (int i = 0; i < 4; ++i) {
+        transformations.push_back(rotated);
+        rotated = Transform::rotate(rotated);
+    }
 
+    // Generate flips for each rotation
+    std::vector<CharacterBoard> currentTransformations = transformations;
+    for (const auto& rotatedBoard : currentTransformations) {
+        transformations.push_back(Transform::flipAcrossVertical(rotatedBoard));
+        transformations.push_back(Transform::flipAcrossHorizontal(rotatedBoard));
+    }
+
+    // return all unique transformations in a vector
+    return transformations;
+}
+
+// Helper function to compare two boards for equality
+bool Transform::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
+    return board1 == board2;
+}
 
 
