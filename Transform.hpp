@@ -60,10 +60,10 @@
    static std::vector<std::vector<CharacterBoard>> groupSimilarBoards(const std::vector<CharacterBoard>& boards);
  
    // Helper function to generate all transformations of a given board
-   static std::vector<CharacterBoard> getAllTransformations(const CharacterBoard& board);
+   std::vector<CharacterBoard> getAllTransformations(const CharacterBoard& board);
  
    // Helper function to compare two boards for equality
-   static bool areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2);
+   bool areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2);
     
  };
  
