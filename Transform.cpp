@@ -130,7 +130,7 @@ std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std
 }
 
 // Helper function to generate all transformations of a given board
-std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoard& board) {
+static std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoard& board) {
     std::vector<CharacterBoard> transformations;
 
     // Generate all rotations
@@ -152,7 +152,7 @@ std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoar
 }
 
 // Helper function to compare two boards for equality
-bool Transform::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
+static bool Transform::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
     return board1 == board2;
 }
 
