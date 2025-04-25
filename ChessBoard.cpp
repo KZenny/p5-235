@@ -104,21 +104,6 @@ ChessBoard::~ChessBoard() {
 // Alias for readability
 typedef std::vector<std::vector<char>> CharacterBoard;
 
-/** 
-* @brief Finds all possible solutions to the 8-queens problem.
-* 
-* @return A vector of CharacterBoard objects, 
-*         each representing a unique solution 
-*         to the 8-queens problem.
-*/
-std::vector<CharacterBoard> ChessBoard::findAllQueenPlacements() {
-    std::vector<std::vector<ChessPiece*>> board(8, std::vector<ChessPiece*>(8, nullptr));
-    std::vector<Queen*> placedQueens;
-    std::vector<CharacterBoard> allBoards;
-    queenHelper(0, board, placedQueens, allBoards);
-    return allBoards;
-}
-
 /**
 * @brief A STATIC helper function for recursively solving the 8-queens problem.
 * 
@@ -130,7 +115,7 @@ std::vector<CharacterBoard> ChessBoard::findAllQueenPlacements() {
 * @param placedQueens A (non-const) reference to a vector storing Queen*, which represents the queens we've placed so far
 * @param allBoards A (non-const) reference to a vector of CharacterBoard objects storing all the solutions we've found thus far
 */
-void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards) {
+static void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards) {
     // Base case: all 8 queens are placed 
     if (col == 8) {
         // Convert board into a CharacterBoard
@@ -170,6 +155,21 @@ void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*
             placedQueens.pop_back();
         }
     }
+}
+
+/** 
+* @brief Finds all possible solutions to the 8-queens problem.
+* 
+* @return A vector of CharacterBoard objects, 
+*         each representing a unique solution 
+*         to the 8-queens problem.
+*/
+static std::vector<CharacterBoard> findAllQueenPlacements() {
+    std::vector<std::vector<ChessPiece*>> board(8, std::vector<ChessPiece*>(8, nullptr));
+    std::vector<Queen*> placedQueens;
+    std::vector<CharacterBoard> allBoards;
+    queenHelper(0, board, placedQueens, allBoards);
+    return allBoards;
 }
 
 
