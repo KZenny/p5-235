@@ -89,7 +89,15 @@ ChessPiece* ChessBoard::getCell(const int& row, const int& col) const {
  * @brief Destructor. 
  * @post Deallocates all ChessPiece pointers stored on the board at time of deletion. 
  */
-
+ChessBoard::~ChessBoard() {
+    for (int i = 0; i < BOARD_LENGTH; i++) {
+        for (int j = 0; j < BOARD_LENGTH; j++) {
+            if (!board[i][j]) { continue; }
+            delete board[i][j];
+            board[i][j] = nullptr;
+        }
+    }
+}
 
 // MY CODE BELOW
 

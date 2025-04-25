@@ -74,7 +74,7 @@ class ChessBoard {
          * @brief Destructor. 
          * @post Deallocates all ChessPiece pointers stored on the board at time of deletion. 
          */
-        virtual ~ChessBoard() = default;
+        ~ChessBoard();
 
         // MY CODE BELOW 
         
