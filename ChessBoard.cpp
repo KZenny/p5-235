@@ -125,27 +125,24 @@ void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*
     // Base case: all 8 queens are placed 
     if (col == 8) {
         // Convert board into a CharacterBoard
-        CharacterBoard snapshot(8, std::vector<char>(8, '*'));
-
-        for (int r = 0; r < 8; ++r) {
-            for (int c = 0; c < 8; ++c) {
+        CharacterBoard convertBoard(8, std::vector<char>(8, '*'));
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 8; c++) {
                 if (board[r][c] != nullptr && board[r][c]->getType() == "QUEEN") {
-                    snapshot[r][c] = 'Q';
+                    convertBoard[r][c] = 'Q';
                 }
             }
         }
-
-        allBoards.push_back(snapshot);
+        allBoards.push_back(convertBoard);
         return;
     }
 
     // Try placing a Queen in each row of the current column 
-    for (int row = 0; row < 8; ++row) {
+    for (int row = 0; row < 8; row++) {
         bool safe = true;
-        
-
         // Check if any of the placed queens can move to (row, col)
-        for (const auto& queen : placedQueens) {
+        for (size_t i = 0; i < placedQueens.size(); ++i) {
+            Queen* queen = placedQueens[i]; {
             if (queen->canMove(row, col, board)) {
                 safe = false;
                 break;
@@ -159,13 +156,13 @@ void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*
             placedQueens.push_back(newQueen);
             queenHelper(col + 1, board, placedQueens, allBoards);
             placedQueens.pop_back();
+            //Deallocate the queen and remove it from the board
             delete board[row][col];
             board[row][col] = nullptr;
-
+            }
         }
     }
 }
-
 /** 
 * @brief Finds all possible solutions to the 8-queens problem.
 * 
@@ -174,10 +171,15 @@ void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*
 *         to the 8-queens problem.
 */
 std::vector<CharacterBoard> ChessBoard::findAllQueenPlacements() {
+    // Initialize board, placedQueens, and allBoards
     std::vector<std::vector<ChessPiece*>> board(8, std::vector<ChessPiece*>(8, nullptr));
     std::vector<Queen*> placedQueens;
     std::vector<CharacterBoard> allBoards;
+
+    // Start the recursive helper function
     queenHelper(0, board, placedQueens, allBoards);
+
+    // Return all queen placements
     return allBoards;
 }
 
@@ -187,14 +189,15 @@ std::vector<CharacterBoard> ChessBoard::getAllTransformations(const CharacterBoa
 
     // Generate all rotations
     CharacterBoard rotated = board;
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; i++) {
         transformations.push_back(rotated);
         rotated = Transform::rotate(rotated);
     }
 
     // Generate flips for each rotation
     std::vector<CharacterBoard> currentTransformations = transformations;
-    for (const auto& rotatedBoard : currentTransformations) {
+    for (size_t i = 0; i < currentTransformations.size(); i++) {
+        const CharacterBoard& rotatedBoard = currentTransformations[i];
         transformations.push_back(Transform::flipAcrossVertical(rotatedBoard));
         transformations.push_back(Transform::flipAcrossHorizontal(rotatedBoard));
     }
@@ -203,8 +206,8 @@ std::vector<CharacterBoard> ChessBoard::getAllTransformations(const CharacterBoa
     return transformations;
 }
 
-    // Helper function to compare two boards for equality
-    bool ChessBoard::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
+// Helper function to compare two boards for equality
+bool ChessBoard::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
     return board1 == board2;
 }
 
@@ -226,21 +229,24 @@ std::vector<CharacterBoard> ChessBoard::getAllTransformations(const CharacterBoa
     std::vector<std::vector<CharacterBoard>> groupedBoards;
     std::vector<bool> visited(boards.size(), false);  
 
-    for (size_t i = 0; i < boards.size(); ++i) {
-        if (visited[i]) continue;
+    for (size_t i = 0; i < boards.size(); i++) {
+        if (visited[i]) {
+            continue; // Skip if already visited
+        } 
 
         std::vector<CharacterBoard> currentGroup;
         currentGroup.push_back(boards[i]);
         visited[i] = true;
 
         // Compare to every other unvisited board
-        for (size_t j = i + 1; j < boards.size(); ++j) {
+        for (size_t j = i + 1; j < boards.size(); j++) {
             if (visited[j]) continue;
 
             bool isSimilar = false;
             std::vector<CharacterBoard> transformations = getAllTransformations(boards[j]);
 
-            for (const auto& variant : transformations) {
+            for (size_t k = 0; k < transformations.size(); k++) {
+                const CharacterBoard& variant = transformations[k];
                 if (areBoardsEqual(boards[i], variant)) {
                     isSimilar = true;
                     break;
