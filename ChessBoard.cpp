@@ -115,7 +115,7 @@ typedef std::vector<std::vector<char>> CharacterBoard;
 * @param placedQueens A (non-const) reference to a vector storing Queen*, which represents the queens we've placed so far
 * @param allBoards A (non-const) reference to a vector of CharacterBoard objects storing all the solutions we've found thus far
 */
-static void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards) {
+void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards) {
     // Base case: all 8 queens are placed 
     if (col == 8) {
         // Convert board into a CharacterBoard
@@ -153,6 +153,9 @@ static void ChessBoard::queenHelper(const int& col, std::vector<std::vector<Ches
             placedQueens.push_back(newQueen);
             queenHelper(col + 1, board, placedQueens, allBoards);
             placedQueens.pop_back();
+            delete board[row][col];
+            board[row][col] = nullptr;
+
         }
     }
 }
@@ -164,7 +167,7 @@ static void ChessBoard::queenHelper(const int& col, std::vector<std::vector<Ches
 *         each representing a unique solution 
 *         to the 8-queens problem.
 */
-static std::vector<CharacterBoard> findAllQueenPlacements() {
+std::vector<CharacterBoard> ChessBoard::findAllQueenPlacements() {
     std::vector<std::vector<ChessPiece*>> board(8, std::vector<ChessPiece*>(8, nullptr));
     std::vector<Queen*> placedQueens;
     std::vector<CharacterBoard> allBoards;
