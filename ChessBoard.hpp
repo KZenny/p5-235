@@ -82,6 +82,15 @@ class ChessBoard {
         typedef std::vector<std::vector<char>> CharacterBoard;
 
         /**
+        * @brief Finds all possible solutions to the 8-queens problem.
+        * 
+        * @return A vector of CharacterBoard objects, 
+        *         each representing a unique solution 
+        *         to the 8-queens problem.
+        */
+        static std::vector<CharacterBoard> findAllQueenPlacements();
+
+        /**
         * @brief A STATIC helper function for recursively solving the 8-queens problem.
         * 
         * This function places queens column by column, checks for valid placements,
@@ -93,13 +102,4 @@ class ChessBoard {
         * @param allBoards A (non-const) reference to a vector of CharacterBoard objects storing all the solutions we've found thus far
         */
         static void queenHelper(const int& col, std::vector<std::vector<ChessPiece*>>& board, std::vector<Queen*>& placedQueens, std::vector<CharacterBoard>& allBoards);
-
-        /**
-        * @brief Finds all possible solutions to the 8-queens problem.
-        * 
-        * @return A vector of CharacterBoard objects, 
-        *         each representing a unique solution 
-        *         to the 8-queens problem.
-        */
-        static std::vector<CharacterBoard> findAllQueenPlacements();
 };

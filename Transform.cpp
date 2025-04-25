@@ -92,7 +92,8 @@ std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoar
     }
 
     // Generate flips for each rotation
-    for (const auto& rotatedBoard : transformations) {
+    std::vector<CharacterBoard> currentTransformations = transformations;
+    for (const auto& rotatedBoard : currentTransformations) {
         transformations.push_back(Transform::flipAcrossVertical(rotatedBoard));
         transformations.push_back(Transform::flipAcrossHorizontal(rotatedBoard));
     }
