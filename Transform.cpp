@@ -1,4 +1,8 @@
 #include "Transform.hpp"
+/**
+Name: Kenny Zhou
+Date: 4/25/25
+Purpose: The cpp file for Transform namespace. It implements the functions rotate, flipAcrossVertical, and flipAcrossHorizontal  */
 
 /**
  * @brief Rotates a square matrix 90 degrees clockwise.

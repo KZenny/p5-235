@@ -6,7 +6,13 @@
  #pragma once 
  #include <vector>
  #include <algorithm>
- namespace Transform {
+
+/**
+Name: Kenny Zhou
+Date: 4/25/25
+Purpose: The hpp file for Transform namespace. Defines the functions rotate, flipAcrossVertical, and flipAcrossHorizontal  */
+
+namespace Transform {
    /**
     * @brief Rotates a square matrix 90 degrees clockwise.
     * @pre The input 2D vector must be square 

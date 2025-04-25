@@ -8,6 +8,11 @@
 #include <vector>
 #include "pieces_module.hpp"
 
+/**
+Name: Kenny Zhou
+Date: 4/25/25
+Purpose: The hpp file for ChessBoard. Defines three functions: queenHelper, findAllQueenReplacements, and groupSimilarBoards for ChessBoard. */
+
 class ChessBoard {
     private:
         // Define board size (8x8)

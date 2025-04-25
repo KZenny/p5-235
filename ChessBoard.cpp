@@ -1,4 +1,10 @@
 #include "ChessBoard.hpp"
+#include "Transform.hpp"
+/**
+Name: Kenny Zhou
+Date: 4/25/25
+Purpose: The cpp file for ChessBoard. Implements queenHelper, findAllQueenReplacements, and groupSimilarBoards  */
+
 
 /**
     * Default constructor. 
@@ -175,6 +181,32 @@ std::vector<CharacterBoard> ChessBoard::findAllQueenPlacements() {
     return allBoards;
 }
 
+// Helper function to generate all transformations of a given board
+std::vector<CharacterBoard> ChessBoard::getAllTransformations(const CharacterBoard& board) {
+    std::vector<CharacterBoard> transformations;
+
+    // Generate all rotations
+    CharacterBoard rotated = board;
+    for (int i = 0; i < 4; ++i) {
+        transformations.push_back(rotated);
+        rotated = Transform::rotate(rotated);
+    }
+
+    // Generate flips for each rotation
+    std::vector<CharacterBoard> currentTransformations = transformations;
+    for (const auto& rotatedBoard : currentTransformations) {
+        transformations.push_back(Transform::flipAcrossVertical(rotatedBoard));
+        transformations.push_back(Transform::flipAcrossHorizontal(rotatedBoard));
+    }
+
+    // return all unique transformations in a vector
+    return transformations;
+}
+
+    // Helper function to compare two boards for equality
+    bool ChessBoard::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
+    return board1 == board2;
+}
 
 /**
  * @brief Groups similar chessboard configurations by transformations.
@@ -192,6 +224,37 @@ std::vector<CharacterBoard> ChessBoard::findAllQueenPlacements() {
  */
  std::vector<std::vector<CharacterBoard>> ChessBoard::groupSimilarBoards(const std::vector<CharacterBoard>& boards) {
     std::vector<std::vector<CharacterBoard>> groupedBoards;
+    std::vector<bool> visited(boards.size(), false);  
+
+    for (size_t i = 0; i < boards.size(); ++i) {
+        if (visited[i]) continue;
+
+        std::vector<CharacterBoard> currentGroup;
+        currentGroup.push_back(boards[i]);
+        visited[i] = true;
+
+        // Compare to every other unvisited board
+        for (size_t j = i + 1; j < boards.size(); ++j) {
+            if (visited[j]) continue;
+
+            bool isSimilar = false;
+            std::vector<CharacterBoard> transformations = getAllTransformations(boards[j]);
+
+            for (const auto& variant : transformations) {
+                if (areBoardsEqual(boards[i], variant)) {
+                    isSimilar = true;
+                    break;
+                }
+            }
+
+            if (isSimilar) {
+                currentGroup.push_back(boards[j]);
+                visited[j] = true;
+            }
+        }
+
+        groupedBoards.push_back(currentGroup);
+    }
 
     return groupedBoards;
 }
