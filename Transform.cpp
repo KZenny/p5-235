@@ -96,6 +96,7 @@ std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoar
         transformations.push_back(Transform::flipAcrossHorizontal(rotatedBoard));
     }
 
+    // return all unique transformations in a vector
     return transformations;
 }
 
@@ -123,7 +124,7 @@ std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std
     std::vector<std::vector<CharacterBoard>> groupedBoards;
     std::vector<bool> visited(boards.size(), false);  
 
-    for (int i = 0; i < boards.size(); ++i) {
+    for (size_t i = 0; i < boards.size(); ++i) {
         if (visited[i]) continue;
 
         std::vector<CharacterBoard> currentGroup;
@@ -131,7 +132,7 @@ std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std
         visited[i] = true;
 
         // Compare to every other unvisited board
-        for (int j = i + 1; j < boards.size(); ++j) {
+        for (size_t j = i + 1; j < boards.size(); ++j) {
             if (visited[j]) continue;
 
             bool isSimilar = false;
