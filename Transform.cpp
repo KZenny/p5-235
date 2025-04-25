@@ -78,34 +78,6 @@ std::vector<std::vector<T>> Transform::flipAcrossHorizontal(const std::vector<st
 // Alias for readability
 typedef std::vector<std::vector<char>> CharacterBoard;
 
-// Helper function to generate all transformations of a given board
-std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoard& board) {
-    std::vector<CharacterBoard> transformations;
-
-    // Generate all rotations
-    CharacterBoard rotated = board;
-    for (int i = 0; i < 4; ++i) {
-        transformations.push_back(rotated);
-        rotated = Transform::rotate(rotated);
-    }
-
-    // Generate flips for each rotation
-    std::vector<CharacterBoard> currentTransformations = transformations;
-    for (const auto& rotatedBoard : currentTransformations) {
-        transformations.push_back(Transform::flipAcrossVertical(rotatedBoard));
-        transformations.push_back(Transform::flipAcrossHorizontal(rotatedBoard));
-    }
-
-    // return all unique transformations in a vector
-    return transformations;
-}
-
-// Helper function to compare two boards for equality
-bool Transform::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
-    return board1 == board2;
-}
-
-
 /**
  * @brief Groups similar chessboard configurations by transformations.
  * 
@@ -120,7 +92,7 @@ bool Transform::areBoardsEqual(const CharacterBoard& board1, const CharacterBoar
  *         where each inner vector is a list of boards 
  *         that are transformations of each other.
  */
-std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std::vector<CharacterBoard>& boards) {
+ std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std::vector<CharacterBoard>& boards) {
     std::vector<std::vector<CharacterBoard>> groupedBoards;
     std::vector<bool> visited(boards.size(), false);  
 
@@ -156,3 +128,32 @@ std::vector<std::vector<CharacterBoard>> Transform::groupSimilarBoards(const std
 
     return groupedBoards;
 }
+
+// Helper function to generate all transformations of a given board
+std::vector<CharacterBoard> Transform::getAllTransformations(const CharacterBoard& board) {
+    std::vector<CharacterBoard> transformations;
+
+    // Generate all rotations
+    CharacterBoard rotated = board;
+    for (int i = 0; i < 4; ++i) {
+        transformations.push_back(rotated);
+        rotated = Transform::rotate(rotated);
+    }
+
+    // Generate flips for each rotation
+    std::vector<CharacterBoard> currentTransformations = transformations;
+    for (const auto& rotatedBoard : currentTransformations) {
+        transformations.push_back(Transform::flipAcrossVertical(rotatedBoard));
+        transformations.push_back(Transform::flipAcrossHorizontal(rotatedBoard));
+    }
+
+    // return all unique transformations in a vector
+    return transformations;
+}
+
+// Helper function to compare two boards for equality
+bool Transform::areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2) {
+    return board1 == board2;
+}
+
+

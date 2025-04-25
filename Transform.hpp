@@ -39,16 +39,12 @@
      */
     template <typename T>
     std::vector<std::vector<T>> flipAcrossHorizontal(const std::vector<std::vector<T>>& matrix);
+
+    
  
     // Alias for readability
     typedef std::vector<std::vector<char>> CharacterBoard;
- 
-    // Helper function to generate all transformations of a given board
-    std::vector<CharacterBoard> getAllTransformations(const CharacterBoard& board);
- 
-    // Helper function to compare two boards for equality
-    bool areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2);
- 
+
     /**
      * @brief Groups similar chessboard configurations by transformations.
      * 
@@ -63,7 +59,15 @@
      *         where each inner vector is a list of boards 
      *         that are transformations of each other.
      */
-    std::vector<std::vector<CharacterBoard>> groupSimilarBoards(const std::vector<CharacterBoard>& boards);
+     std::vector<std::vector<CharacterBoard>> groupSimilarBoards(const std::vector<CharacterBoard>& boards);
+ 
+    // Helper function to generate all transformations of a given board
+    std::vector<CharacterBoard> getAllTransformations(const CharacterBoard& board);
+ 
+    // Helper function to compare two boards for equality
+    bool areBoardsEqual(const CharacterBoard& board1, const CharacterBoard& board2);
+ 
+    
  };
  
  #include "Transform.cpp"
