@@ -142,7 +142,7 @@ void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*
         bool safe = true;
         // Check if any of the placed queens can move to (row, col)
         for (size_t i = 0; i < placedQueens.size(); ++i) {
-            Queen* queen = placedQueens[i]; {
+            Queen* queen = placedQueens[i]; 
             if (queen->canMove(row, col, board)) {
                 safe = false;
                 break;
@@ -159,10 +159,10 @@ void ChessBoard::queenHelper(const int& col, std::vector<std::vector<ChessPiece*
             //Deallocate the queen and remove it from the board
             delete board[row][col];
             board[row][col] = nullptr;
-            }
         }
     }
 }
+
 /** 
 * @brief Finds all possible solutions to the 8-queens problem.
 * 
